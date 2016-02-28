@@ -32,15 +32,16 @@ class Project(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     created_on = db.Column(db.DateTime)
-    updated_on = db.Column(db.DateTime)
+    happens_on = db.Column(db.DateTime)
     name = db.Column(db.String(100))
     organization = db.Column(db.String(100))
     description = db.Column(db.String(10000))
     tools = db.Column(db.String(10000))
     day = db.Column(db.String(10))
-    # from_time = db.Column(db.DateTime)
-    # to_time = db.Column(db.DateTime)
     vols = db.relationship('ProjectAssignment')
+
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 class ProjectAssignment(db.Model):
 
@@ -51,6 +52,9 @@ class ProjectAssignment(db.Model):
     request_sent = db.Column(db.Boolean)
     request_accepted = db.Column(db.Boolean)
     vol = db.relationship('Vol')
+
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 
