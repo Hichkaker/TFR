@@ -21,7 +21,7 @@ def index():
 @app.route('/volunteer/new', methods=['POST'])
 def new_vol():
     data = request.get_json()
-    app.logger.log(data)
+    app.logger.info(data)
     # vol = models.Vol()
     # db.session.add(vol)
     # db.session.commit()
