@@ -2,3 +2,5 @@ venv
 db_repository
 app.db
 .idea*
+__pychache__
+*.pyc
