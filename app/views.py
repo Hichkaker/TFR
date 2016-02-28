@@ -110,8 +110,8 @@ def list_vols():
 def confirm():
     app.logger.info(request.values)
     from_number = request.values.get('From')
-    vol = db.session.query(models.Vol.query.filter_by(phone=from_number)).first()
-    pa = db.session.query(models.ProjectAssignment).query.filter_by(vol_id=vol.id).first()
+    vol = db.session.query(models.Vol).filter_by(phone=from_number).first()
+    pa = db.session.query(models.ProjectAssignment).filter_by(vol_id=vol.id).first()
     resp = twilio.twiml.Response()
     if pa:
         body = request.values.get('Body')
@@ -125,6 +125,7 @@ def confirm():
             resp.sms('Maybe other time!\nThank you!')
         else:
             resp.sms('Please reply "1" to confirm or "0" to reject')
+    return ''
 
 def request_vol(vol, project):
 
