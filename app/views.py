@@ -7,11 +7,9 @@ import pdb
 import twilio.twiml
 from twilio.rest import TwilioRestClient
 
-
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template('404.html'), 404
-
 
 @app.errorhandler(500)
 def internal_error(error):
@@ -36,8 +34,8 @@ def new_vol():
         phone=data['phone'],
         first_name=data['first_name'],
         last_name=data['last_name'],
-        linkedin=data['linkedin'],
-        facebook=data['facebook'],
+        linkedin=(data['linkedin'] if 'linkedin' in data else None),
+        facebook=(data['facebook'] if 'facebook' in data else None),
         occupation=data['occupation'],
         accepts_texts=(True if data['accepts_texts'].lower() == 'yes' else False),
         postal_code=data['postal_code'],
@@ -112,8 +110,8 @@ def list_vols():
 def confirm():
     app.logger.info(request.values)
     from_number = request.values.get('From')
-    vol = db.session.query(models.Vol.filter_by(phone=from_number)).first()
-    pa = db.session.query(models.ProjectAssignment).filter_by(vol_id=vol.id).first()
+    vol = db.session.query(models.Vol.query.filter_by(phone=from_number)).first()
+    pa = db.session.query(models.ProjectAssignment).query.filter_by(vol_id=vol.id).first()
     resp = twilio.twiml.Response()
     if pa:
         body = request.values.get('Body')
