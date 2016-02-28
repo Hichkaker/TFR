@@ -109,7 +109,7 @@ def list_vols():
 @app.route('/project_assignment_confirmation', methods=['POST'])
 def confirm():
     app.logger.info(request.values)
-    from_number = request.values.get('From')
+    from_number = request.values.get('From')[2:]
     vol = db.session.query(models.Vol).filter_by(phone=from_number).first()
     pa = db.session.query(models.ProjectAssignment).filter_by(vol_id=vol.id).first()
     resp = twilio.twiml.Response()
