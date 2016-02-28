@@ -1,42 +1,28 @@
 (function() {
-    angular.module('app', ['smart-table']).config(function($interpolateProvider){
+    angular.module('app', []).config(function($interpolateProvider){
       $interpolateProvider.startSymbol('#|');
       $interpolateProvider.endSymbol('|#');
     })
     .controller('TableControl', ['$scope', '$filter', '$http', function ($scope, $filter, $http) {
-      
-        var table = [];
-
+        var vm = this
+        vm.rowCollection = []
+        var daysOfWeek = ['mon', 'tues', 'wed', 'thu', 'fri','sat', 'sun']
+        
         $http.get('/volunteer').then(function(resp) {
-            $scope.rowCollection = resp.data.volunteers;
-        }),
 
-        $scope.rowCollection = table;
-
-    }]).directive('csSelect', function () {
-    return {
-        require: '^stTable',
-        template: '<input type="checkbox"/>',
-        scope: {
-            row: '=csSelect'
-        },
-        link: function (scope, element, attr, ctrl) {
-
-            element.bind('change', function (evt) {
-                scope.$apply(function () {
-                    ctrl.select(scope.row, 'multiple');
-                });
-            });
-
-            scope.$watch('row.isSelected', function (newValue, oldValue) {
-                if (newValue === true) {
-                    element.parent().addClass('st-selected');
-                } else {
-                    element.parent().removeClass('st-selected');
-                }
-            });
-        }
-    };
-});;
+           mappedData = resp.data.volunteers.map(function(volunteer, index) {
+                var available = []
+                for(var i = 0; i < daysOfWeek.length; i++) {
+                    if (volunteer[daysOfWeek[i]] === true) {
+                        available.push(daysOfWeek[i])
+                    };
+                };
+                volunteer.availability = available
+                return volunteer
+            }); 
+            console.log(mappedData);
+            vm.rowCollection = mappedData           
+        })
+    }]);
 
 }).call(this);

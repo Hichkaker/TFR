@@ -69,6 +69,8 @@ def project(project_id):
 
 
 @app.route('/volunteer', methods=['GET'])
+
+
 def get_vols_list():
     vols = models.Vol.query.all()
     jvols = jsonify({'volunteers':[vol.as_dict() for vol in vols]})
