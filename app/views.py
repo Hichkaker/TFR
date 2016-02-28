@@ -21,6 +21,7 @@ def index():
 @app.route('/volunteer/new', methods=['POST'])
 def new_vol():
     data = request.get_json()
+    app.logger.log(data)
     vol = models.Vol()
     return data
 
