@@ -50,7 +50,7 @@ def new_vol():
 
     db.session.add(vol)
     db.session.commit()
-    return redirect('/volunteers')
+    return 'Success!'
 
 @app.route('/project/new', methods=['GET'])
 def new_project():
