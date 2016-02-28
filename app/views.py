@@ -119,7 +119,7 @@ def confirm():
             pa.request_accepted = True
             db.session.commit()
             resp.message('Your participation is confirmed.\nThank you!')
-        if body == '0':
+        elif body == '0':
             pa.request_accepted = False
             db.session.commit()
             resp.message('Maybe other time!\nThank you!')
