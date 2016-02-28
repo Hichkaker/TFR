@@ -80,7 +80,7 @@ def save_project():
     for vol_id in vol_ids:
         vol = models.Vol.query.get(vol_id)
         request_vol(vol, new_project)
-    return 'Successfully added volunteers {} to the project {}'.format(','.join(vol_ids), project['name'])
+    return 'Successfully added volunteers {} to the project {}'.format(','.join(str(vol_ids)), project['name'])
 
 @app.route('/project/<int:project_id>', methods=['GET'])
 def project(project_id):
