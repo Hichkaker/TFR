@@ -5,12 +5,12 @@
     })
     .controller('TableControl', TableControl);
 
-    TableControl.$inject = ['$scope', '$filter', '$http']
-    function TableControl ($scope, $filter, $http) {
+    TableControl.$inject = ['$scope', '$filter', '$http', '$location']
+    function TableControl ($scope, $filter, $http, $location) {
         var vm = this
         vm.rowCollection = []
         var daysOfWeek = ['mon', 'tue', 'wed', 'thu', 'fri','sat', 'sun']
-        
+        vm.project = {}
         $http.get('/volunteer').then(function(resp) {
 
            mappedData = resp.data.volunteers.map(function(volunteer, index) {
@@ -42,17 +42,13 @@
                     return volunteer.id
                 });
             if (!project) {
-                project = {
-                    name: "default",
-                    description: "something",
-                    tools: "shovel",
-                    day: "Sunday",
-                    organization: "Mozilla"
-                }
+                alert('heyo');
             }
             var data = {project: project, volunteers:selected}
             console.log('post up', data);
+            console.log(data.project.days);
             $http.post('/project/new', data).then(function(resp) {
+                $location.path('/success')
             })
         }
     }

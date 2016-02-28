@@ -31,9 +31,8 @@ a {
   text-align: center;
 }
 
-.st-selected {
-    background: #216eff !important;
-    color: white !important;
+.projects-form input{
+  margin-bottom: 20px;
 }
 
 /* Main elements end */

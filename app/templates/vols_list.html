@@ -1,44 +1,137 @@
 {% extends 'main.html' %}
 {% block title %}Volunteers{% endblock %}
 {% block content %}
+<div ng-controller="TableControl as table">
+  <form class="projects-form form-horizontal" ng-model='table.project'>
+  <fieldset>
 
-<div class="page-header" ng-controller="TableControl as table">
-  <h1>Available Volunteers</h1>
+  <!-- Form Name -->
+  <legend>Project Info</legend>
 
- <table class="table">
-      <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Availability</th>
-        <th>Occupation</th>
-        <th>Select</th>
-      </tr>
-      <tr>
-        <th colspan="1"><input ng-model="FirstName" class="form-control" placeholder="First Name" type="text"/></th>
-        <th colspan="1"><input ng-model="LastName" class="form-control" placeholder="Last Name" type="text"/></th>
-        <th colspan="1"><input ng-model="Availability" class="form-control" placeholder="Availability" type="text"/></th>
-        <th colspan="1"><input ng-model="Occupation" class="form-control" placeholder="Skills" type="text"/></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="row in table.rowCollection | 
-      filter:{'occupation': Occupation} |
-      filter:{'availability': Availability} |
-      filter:{'first_name': FirstName } | 
-      filter:{'last_name': LastName} " >
-        <td>#|row.first_name|#</td>
-        <td>#|row.last_name|#</td>
-        <td>#|row.availability|#</td>
-        <td>#|row.occupation|#</td>
-        <td><input ng-model="row.dispatch" type="checkbox"></td>
-      </tr>
-      </tbody>
-    </table>
-  
-    <form ng-submit="table.submit(table.rowCollection)" >
-        <input type="submit" id="submit" value="Select Volunteers" />
-    </form>
+  <!-- Text input-->
+  <div class="form-group">
+    <label ng-model="project.name" class="col-md-4 control-label" for="" help="" organize="" supplies""="">Project Name</label>  
+    <div class="col-md-4">
+    <input id="" help="" organize="" supplies""="" name="" type="text" placeholder="" class="form-control input-md">
+      
+    </div>
+  </div>
+
+  <!-- Text input-->
+  <div class="form-group">
+    <label ng-model="project.organization" class="col-md-4 control-label" for="organization">Organization</label>  
+    <div class="col-md-4">
+    <input id="organization" name="organization" type="text" placeholder="IRC, MSF, etc" class="form-control input-md">
+      
+    </div>
+  </div>
+
+  <!-- Text input-->
+  <div class="form-group">
+    <label ng-model="project.description" class="col-md-4 control-label" for="Description">Description</label>  
+    <div class="col-md-4">
+    <input id="Description" name="Description" type="text" placeholder="Help organize supplies" class="form-control input-md">
+      
+    </div>
+  </div>
+
+  <!-- Text input-->
+  <div class="form-group">
+    <label ng-model="project.tools" class="col-md-4 control-label" for="tools">Tools</label>  
+    <div class="col-md-4">
+    <input id="tools" name="tools" type="text" placeholder="flashlight" class="form-control input-md">
+      
+    </div>
+  </div>
+
+  <!-- Multiple Checkboxes -->
+  <div class="form-group">
+    <label ng-model="project.days" class="col-md-4 control-label" for="days">Days needed</label>
+    <div class="col-md-4">
+    <div class="checkbox">
+      <label for="days-0">
+        <input type="checkbox" name="days" id="days-0" value="mon">
+        Monday
+      </label>
+    </div>
+    <div class="checkbox">
+      <label for="days-1">
+        <input type="checkbox" name="days" id="days-1" value="tue">
+        Tuesday
+      </label>
+    </div>
+    <div class="checkbox">
+      <label for="days-2">
+        <input type="checkbox" name="days" id="days-2" value="wed">
+        Wendesday
+      </label>
+    </div>
+    <div class="checkbox">
+      <label for="days-3">
+        <input type="checkbox" name="days" id="days-3" value="thu">
+        Thursday
+      </label>
+    </div>
+    <div class="checkbox">
+      <label for="days-4">
+        <input type="checkbox" name="days" id="days-4" value="fri">
+        Friday
+      </label>
+    </div>
+    <div class="checkbox">
+      <label for="days-5">
+        <input type="checkbox" name="days" id="days-5" value="sat">
+        Saturday
+      </label>
+    </div>
+    <div class="checkbox">
+      <label for="days-6">
+        <input type="checkbox" name="days" id="days-6" value="sun">
+        Sunday
+      </label>
+    </div>
+    </div>
+  </div>
+
+  </fieldset>
+  </form>
+
+    <h1>Available Volunteers</h1>
+  <div class="page-header">
+   <table class="table">
+        <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Availability</th>
+          <th>Occupation</th>
+          <th>Select</th>
+        </tr>
+        <tr>
+          <th colspan="1"><input ng-model="FirstName" class="form-control" placeholder="First Name" type="text"/></th>
+          <th colspan="1"><input ng-model="LastName" class="form-control" placeholder="Last Name" type="text"/></th>
+          <th colspan="1"><input ng-model="Availability" class="form-control" placeholder="Availability" type="text"/></th>
+          <th colspan="1"><input ng-model="Occupation" class="form-control" placeholder="Skills" type="text"/></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in table.rowCollection | 
+        filter:{'occupation': Occupation} |
+        filter:{'availability': Availability} |
+        filter:{'first_name': FirstName } | 
+        filter:{'last_name': LastName} " >
+          <td>#|row.first_name|#</td>
+          <td>#|row.last_name|#</td>
+          <td>#|row.availability|#</td>
+          <td>#|row.occupation|#</td>
+          <td><input ng-model="row.dispatch" type="checkbox"></td>
+        </tr>
+        </tbody>
+      </table>
+    
+      <form ng-submit="table.submit(table.rowCollection, table.project)" >
+          <input type="submit" id="submit" value="Select Volunteers" />
+      </form>
+  </div>
 </div>
-
 {% endblock %}
