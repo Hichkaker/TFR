@@ -125,7 +125,7 @@ def confirm():
             resp.message('Maybe other time!\nThank you!')
         else:
             resp.message('Please reply "1" to confirm or "0" to reject')
-    return resp
+    return str(resp)
 
 def request_vol(vol, project):
 
