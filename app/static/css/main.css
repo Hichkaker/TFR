@@ -35,6 +35,14 @@ a {
   margin-bottom: 20px;
 }
 
+#days-label {
+  text-align: left;
+}
+
+textarea.form-control {
+  height: 200px;
+}
+
 /* Main elements end */
 
 
