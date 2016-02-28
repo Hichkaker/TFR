@@ -24,14 +24,14 @@
       <tbody>
       <tr ng-repeat="row in table.rowCollection | 
       filter:{'occupation': Occupation} |
-      filter:{'Availability': Availability} |
+      filter:{'availability': Availability} |
       filter:{'first_name': FirstName } | 
       filter:{'last_name': LastName} " >
         <td>#|row.first_name|#</td>
         <td>#|row.last_name|#</td>
         <td>#|row.availability|#</td>
         <td>#|row.occupation|#</td>
-        </td>
+        <td><input ng-model="row.dispatch" type="checkbox"></td>
       </tr>
       </tbody>
     </table>

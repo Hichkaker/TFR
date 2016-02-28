@@ -11,7 +11,7 @@
         $http.get('/volunteer').then(function(resp) {
 
            mappedData = resp.data.volunteers.map(function(volunteer, index) {
-                var available = []
+                var available = ['monday']
                 for(var i = 0; i < daysOfWeek.length; i++) {
                     if (volunteer[daysOfWeek[i]] === true) {
                         available.push(daysOfWeek[i])
