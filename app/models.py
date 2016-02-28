@@ -33,19 +33,21 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_on = db.Column(db.DateTime)
     updated_on = db.Column(db.DateTime)
+    name = db.Column(db.String(100))
     organization = db.Column(db.String(100))
     description = db.Column(db.String(10000))
     tools = db.Column(db.String(10000))
-    from_time = db.Column(db.DateTime)
-    to_time = db.Column(db.DateTime)
+    day = db.Column(db.String(10))
+    # from_time = db.Column(db.DateTime)
+    # to_time = db.Column(db.DateTime)
     vols = db.relationship('ProjectAssignment')
 
 class ProjectAssignment(db.Model):
 
     __tablename__ = 'ProjectAssignment'
-
-    project_id = db.Column(db.Integer, db.ForeignKey(Project.id), primary_key=True)
-    vol_id = db.Column(db.Integer, db.ForeignKey(Vol.id), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    project_id = db.Column(db.Integer, db.ForeignKey(Project.id))
+    vol_id = db.Column(db.Integer, db.ForeignKey(Vol.id))
     request_sent = db.Column(db.Boolean)
     request_accepted = db.Column(db.Boolean)
     vol = db.relationship('Vol')

@@ -60,9 +60,26 @@ def new_project():
 
 @app.route('/project/new', methods=['POST'])
 def save_project():
-    vols = request.get_json()['volunteers']
+
+    vol_ids = request.get_json()['volunteers']
     project = request.get_json()['project']
 
+    new_project = models.Project(
+        name=project['name'],
+        organization=project['organization'],
+        description=project['description'],
+        tools=project['tools'],
+        day=project['day']
+    )
+    db.session.add(new_project)
+    db.session.commit()
+
+    pas = [models.ProjectAssignment(project_id=new_project.id, vol_id=vol_id) for vol_id in vol_ids]
+    db.session.add_all(pas)
+    for vol_id in vol_ids:
+        vol = models.Vol.query.get(vol_id)
+        request_vol(vol, new_project)
+    return 'Success'
 
 
 
@@ -93,25 +110,30 @@ def list_vols():
 
 @app.route('/project_assignment_confirmation', methods=['POST'])
 def confirm():
-    vols = request.get_json()
     from_number = request.values.get('From')
-
-    vol = models.Vol.get(phone=from_number).first()
-    pa = models.ProjectAssignment.get(vol_id=vol.id).first()
+    vol = db.session.query(models.Vol.filter_by(phone=from_number)).first()
+    pa = db.session.query(models.ProjectAssignment).filter_by(vol_id=vol.id).first()
+    resp = twilio.twiml.Response()
     if pa:
-        resp = twilio.twiml.Response()
-        resp.sms('Thank you!')
-
-# Find these values at https://twilio.com/user/account
-
+        body = request.values.get('Body')
+        if body == '1':
+            pa.request_accepted = True
+            db.session.commit()
+            resp.sms('Your participation is confirmed.\nThank you!')
+        if body == '0':
+            pa.request_accepted = False
+            db.session.commit()
+            resp.sms('Maybe other time!\nThank you!')
+        else:
+            resp.sms('Please reply "1" to confirm or "0" to reject')
 
 def request_vol(vol, project):
+
     client = TwilioRestClient(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN)
-    body = "Hi {},\n {} would need your help from {} to {}.\n{}\n"\
+    body = "Hi {},\n {} would need your help on {}\n{}\n"\
         .format(vol.first_name,
                 project.organization,
-                project.from_time,
-                project.to_time,
+                project.day,
                 project.description)
     body += "If you can help, please reply '1', if not reply '0'"
 
@@ -119,6 +141,6 @@ def request_vol(vol, project):
     message = client.messages.create(to=vol.phone, from_=config.TWILIO_SENDER_NUMBER,
                                      body=body)
     #Store state
-    pa = models.ProjectAssignment.get(vol_id=vol.id, project_id=project.id).first()
+    pa = db.session.query(models.ProjectAssignment).filter_by(vol_id=vol.id, project_id=project.id).first()
     pa.request_sent = True
     db.session.commit()
