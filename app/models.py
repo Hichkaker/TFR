@@ -13,8 +13,9 @@ class Vol(db.Model):
     linkedin = db.Column(db.String(120))
     facebook = db.Column(db.String(120))
     is_disabled = db.Column(db.Boolean)
-    created = db.Column(db.DateTime)
-    updated = db.Column(db.DateTime)
+    created_on = db.Column(db.DateTime)
+    updated_on = db.Column(db.DateTime)
+    accepts_texts = db.Column(db.Boolean)
     mon = db.Column(db.Boolean)
     tue = db.Column(db.Boolean)
     wed = db.Column(db.Boolean)
@@ -22,6 +23,9 @@ class Vol(db.Model):
     fri = db.Column(db.Boolean)
     sat = db.Column(db.Boolean)
     sun = db.Column(db.Boolean)
+
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 class Project(db.Model):
     __tablename__ = 'Project'
