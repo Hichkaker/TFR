@@ -118,14 +118,14 @@ def confirm():
         if body == '1':
             pa.request_accepted = True
             db.session.commit()
-            resp.sms('Your participation is confirmed.\nThank you!')
+            resp.message('Your participation is confirmed.\nThank you!')
         if body == '0':
             pa.request_accepted = False
             db.session.commit()
-            resp.sms('Maybe other time!\nThank you!')
+            resp.message('Maybe other time!\nThank you!')
         else:
-            resp.sms('Please reply "1" to confirm or "0" to reject')
-    return ''
+            resp.message('Please reply "1" to confirm or "0" to reject')
+    return resp
 
 def request_vol(vol, project):
 
