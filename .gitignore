@@ -5,3 +5,4 @@ __pychache__
 *.pyc
 app/__pycache__
 app/*.pyc
+
