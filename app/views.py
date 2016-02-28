@@ -1,3 +1,5 @@
+#!bin/python
+
 from flask import render_template, request, jsonify, session, redirect
 from app import app, db, models
 import config
@@ -133,8 +135,6 @@ def request_vol(vol, project):
                 project.organization,
                 project.day,
                 project.description)
-    body += "If you are available to help, please reply 'Yes', if not – 'No'"
-
     #Send SMS
     client.messages.create(to=vol.phone,
                                      from_=config.TWILIO_SENDER_NUMBER,

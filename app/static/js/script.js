@@ -37,7 +37,10 @@
         }
 
         vm.submit = function(volunteers, project){
-            var selected = volunteers.filter(selectedVolunteers);
+            var selected = volunteers.filter(selectedVolunteers)
+                .map(function(volunteer){
+                    return volunteer.id
+                });
             if (!project) {
                 project = {
                     name: "default",
@@ -48,7 +51,7 @@
                 }
             }
             var data = {project: project, volunteers:selected}
-            console.log('post up');
+            console.log('post up', data);
             $http.post('/project/new', data).then(function(resp) {
             })
         }
