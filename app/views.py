@@ -130,11 +130,12 @@ def confirm():
 def request_vol(vol, project):
 
     client = TwilioRestClient(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN)
-    body = "Hi {},\n {} would need your help on {}\n{}\n"\
+    body = "Hi {},\n {} would need your help on {}\n{}\n\n"\
         .format(vol.first_name,
                 project.organization,
                 project.day,
                 project.description)
+    body += "Please reply 'Yes' to confirm that you're coming or 'No' to reject."
     #Send SMS
     client.messages.create(to=vol.phone,
                                      from_=config.TWILIO_SENDER_NUMBER,
