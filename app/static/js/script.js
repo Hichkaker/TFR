@@ -5,13 +5,13 @@
     })
     .controller('TableControl', ['$scope', '$filter', '$http', function ($scope, $filter, $http) {
       
-        var table = {content:null};
+        var table = [];
 
-        $http.get('https://tfr2.herokuapp.com/volunteer').then(function(data) {
-            return table.content = data;
+        $http.get('/volunteer').then(function(resp) {
+            $scope.rowCollection = resp.data.volunteers;
         }),
 
-        $scope.rowCollection = table.content;
+        $scope.rowCollection = table;
 
     }]).directive('csSelect', function () {
     return {
