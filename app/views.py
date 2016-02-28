@@ -72,7 +72,9 @@ def save_project():
         organization=project['organization'],
         description=project['description'],
         tools=project['tools'],
-        day=project['day']
+        day=project['day'],
+        created_on=datetime.datetime.utcnow(),
+        happens_on=datetime.datetime.utcnow() + datetime.timedelta(days=2)
     )
     db.session.add(new_project)
     db.session.commit()
@@ -89,10 +91,14 @@ def project(project_id):
     p = models.Project.query.get(project_id)
     return render_template('project_info.html')
 
-@app.route('/project/<int:project_id>/data', methods=['GET'])
-def project_data(project_id):
-    p = models.Project.query.get(project_id)
-    return str(p)
+@app.route('/projects', methods=['GET'])
+def project_data():
+    out = {"projects":[]}
+    for project in models.Project.query.all():
+        pd = project.as_dict()
+        pd['vols'] = [vol.as_dict() for vol in project.vols]
+        out['projects'].append(pd)
+    return jsonify(out)
 
 @app.route('/volunteer', methods=['GET'])
 def get_vols_list():
@@ -114,11 +120,11 @@ def confirm():
     resp = twilio.twiml.Response()
     if pa:
         body = request.values.get('Body')
-        if body == '1':
+        if body.lower() == 'yes':
             pa.request_accepted = True
             db.session.commit()
             resp.message('Your participation is confirmed.\nThank you!')
-        elif body == '0':
+        elif body.lower() == 'no':
             pa.request_accepted = False
             db.session.commit()
             resp.message('Thank you! We will notify you about upcoming opportunities.')
