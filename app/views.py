@@ -22,8 +22,10 @@ def index():
 def new_vol():
     data = request.get_json()
     app.logger.log(data)
-    vol = models.Vol()
-    return data
+    # vol = models.Vol()
+    # db.session.add(vol)
+    # db.session.commit()
+    return 'Success!'
 
 @app.route('/list_vols', methods=['GET'])
 def list_vols():
