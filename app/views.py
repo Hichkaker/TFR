@@ -17,6 +17,7 @@ def internal_error(error):
     return render_template('500.html'), 500
 
 
+#Main page
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 @app.route('/register', methods=['GET'])
@@ -24,7 +25,7 @@ def internal_error(error):
 def index():
     return render_template('vol_sign_up.html')
 
-
+#Volunteer signup form
 @app.route('/volunteer/new', methods=['POST'])
 def new_vol():
     data = request.get_json()
@@ -52,10 +53,12 @@ def new_vol():
     db.session.commit()
     return 'Success!'
 
+#New project form template
 @app.route('/project/new', methods=['GET'])
 def new_project():
     return render_template('new_project.html')
 
+#New project form submission
 @app.route('/project/new', methods=['POST'])
 def save_project():
 
@@ -77,11 +80,7 @@ def save_project():
     for vol_id in vol_ids:
         vol = models.Vol.query.get(vol_id)
         request_vol(vol, new_project)
-    return 'Success'
-
-
-
-
+    return 'Successfully added volunteers {} to the project {}'.format(','.join(vol_ids), project['name'])
 
 @app.route('/project/<int:project_id>', methods=['GET'])
 def project(project_id):
@@ -93,7 +92,10 @@ def project_data(project_id):
     p = models.Project.query.get(project_id)
     return str(p)
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> d0d075c3f573264b927e1c2b53992288ff261e4f
 @app.route('/volunteer', methods=['GET'])
 
 
@@ -123,11 +125,12 @@ def confirm():
         elif body == '0':
             pa.request_accepted = False
             db.session.commit()
-            resp.message('Maybe other time!\nThank you!')
+            resp.message('Thank you! We will notify you about upcoming opportunities.')
         else:
-            resp.message('Please reply "1" to confirm or "0" to reject')
+            resp.message("Please reply 'Yes' to confirm or 'No' to reject")
     return str(resp)
 
+#Sends request to the volunteer and stores the state in the DB
 def request_vol(vol, project):
 
     client = TwilioRestClient(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN)
@@ -136,10 +139,11 @@ def request_vol(vol, project):
                 project.organization,
                 project.day,
                 project.description)
-    body += "If you can help, please reply '1', if not reply '0'"
+    body += "If you are available to help, please reply 'Yes', if not – 'No'"
 
     #Send SMS
-    message = client.messages.create(to=vol.phone, from_=config.TWILIO_SENDER_NUMBER,
+    client.messages.create(to=vol.phone,
+                                     from_=config.TWILIO_SENDER_NUMBER,
                                      body=body)
     #Store state
     pa = db.session.query(models.ProjectAssignment).filter_by(vol_id=vol.id, project_id=project.id).first()
