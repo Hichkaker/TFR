@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% block title %}Volunteers{% endblock %}
+{% block content %}
+
+<div class="page-header" ng-controller="TableControl as table">
+  <h1>Available Volunteers</h1>
+
+ <table st-table="rowCollection" class="table ng-scope">
+      <thead>
+      <tr>
+        <th st-sort="firstName">First Name</th>
+        <th st-sort="lastName">Last Name</th>
+        <th st-sort="birthDate">Availability</th>
+        <th st-sort="balance">Skills</th>
+        <th st-sort="balance">Select</th>
+      </tr>
+      <tr>
+        <th colspan="1"><input st-search="firstName" class="form-control" placeholder="First Name" type="text"/></th>
+        <th colspan="1"><input st-search="lastName" class="form-control" placeholder="Last Name" type="text"/></th>
+        <th colspan="1"><input st-search="availability" class="form-control" placeholder="Availability" type="text"/></th>
+        <th colspan="1"><input st-search="skills" class="form-control" placeholder="Skills" type="text"/></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="row in rowCollection">
+        <td>#|row.firstName|#</td>
+        <td>#|row.lastName|#</td>
+        <td>#|row.availability|#</td>
+        <td>#|row.skills|#</td>
+        <td cs-select="row"></td>
+        <td>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  
+</div>
+
+{% endblock %}

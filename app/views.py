@@ -1,5 +1,7 @@
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, session, redirect
 from app import app, db, models
+import datetime
+import twilio.twiml
 
 
 @app.errorhandler(404)
@@ -13,10 +15,14 @@ def internal_error(error):
     return render_template('500.html'), 500
 
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
+@app.route('/index', methods=['GET'])
 def index():
-    return render_template('index.html')
+    return render_template('volunteer.html')
+
+@app.route('/ngo', methods=['GET'])
+def ngo():
+    return render_template('ngo.html')
 
 @app.route('/volunteer/new', methods=['POST'])
 def new_vol():
@@ -27,34 +33,44 @@ def new_vol():
     # db.session.commit()
     return str(data)
 
-@app.route('/list_vols', methods=['GET'])
+@app.route('/project/new', methods=['GET','POST'])
+def new_project():
+    np = models.Project(created_on=datetime.datetime.utcnow())
+    db.session.add(np)
+    db.session.commit()
+    return redirect('/project/%s' % np.id)
+
+@app.route('/project/<int:project_id>', methods=['GET'])
+def project(project_id):
+    p = models.Project.query.get(project_id)
+    if not p.updated_on:
+        return render_template('new_project_form.html')
+    else:
+        return render_template('project_info.html')
+
+
+
+
+
+
+@app.route('/volunteer/', methods=['GET'])
 def list_vols():
     vols = models.Vol.query.all()
     return jsonify([vol.__dict__ for vol in vols])
 
-@app.route('/request_vols', methods=['GET'])
+
+@app.route('/request_vols', methods=['POST'])
+#For each vol id,
 def request_vols():
     vols = request.get_json()
 
+#     for vol_id in vols:
+#         send
 #
 #
-# import twilio.twiml
 #
-# # The session object makes use of a secret key.
-# SECRET_KEY = 'a secret key'
-# app = Flask(__name__)
-# app.config.from_object(__name__)
 #
-# # Try adding your own number to this list!
-# callers = {
-#     "+14158675309": "Curious George",
-#     "+14158675310": "Boots",
-#     "+14158675311": "Virgil",
-# }
-#
-# @app.route("/", methods=['GET', 'POST'])
-# def hello_monkey():
-#     """Respond with the number of text messages sent between two parties."""
+# def sms_request():
 #
 #     counter = session.get('counter', 0)
 #
@@ -76,6 +92,3 @@ def request_vols():
 #     resp.sms(message)
 #
 #     return str(resp)
-
-if __name__ == "__main__":
-    app.run(debug=True)
