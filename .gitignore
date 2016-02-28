@@ -3,3 +3,4 @@ app.db
 .idea*
 __pychache__
 *.pyc
+app/__pycache__

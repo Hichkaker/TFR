@@ -5,31 +5,33 @@
 <div class="page-header" ng-controller="TableControl as table">
   <h1>Available Volunteers</h1>
 
- <table st-table="rowCollection" class="table ng-scope">
+ <table class="table">
       <thead>
       <tr>
-        <th st-sort="firstName">First Name</th>
-        <th st-sort="lastName">Last Name</th>
-        <th st-sort="birthDate">Availability</th>
-        <th st-sort="balance">Skills</th>
-        <th st-sort="balance">Select</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Availability</th>
+        <th>Occupation</th>
+        <th>Select</th>
       </tr>
       <tr>
-        <th colspan="1"><input st-search="firstName" class="form-control" placeholder="First Name" type="text"/></th>
-        <th colspan="1"><input st-search="lastName" class="form-control" placeholder="Last Name" type="text"/></th>
-        <th colspan="1"><input st-search="availability" class="form-control" placeholder="Availability" type="text"/></th>
-        <th colspan="1"><input st-search="skills" class="form-control" placeholder="Skills" type="text"/></th>
+        <th colspan="1"><input ng-model="FirstName" class="form-control" placeholder="First Name" type="text"/></th>
+        <th colspan="1"><input ng-model="LastName" class="form-control" placeholder="Last Name" type="text"/></th>
+        <th colspan="1"><input ng-model="Availability" class="form-control" placeholder="Availability" type="text"/></th>
+        <th colspan="1"><input ng-model="Occupation" class="form-control" placeholder="Skills" type="text"/></th>
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="row in rowCollection">
-        <td>#|row.firstName|#</td>
-        <td>#|row.lastName|#</td>
+      <tr ng-repeat="row in table.rowCollection | 
+      filter:{'occupation': Occupation} |
+      filter:{'availability': Availability} |
+      filter:{'first_name': FirstName } | 
+      filter:{'last_name': LastName} " >
+        <td>#|row.first_name|#</td>
+        <td>#|row.last_name|#</td>
         <td>#|row.availability|#</td>
-        <td>#|row.skills|#</td>
-        <td cs-select="row"></td>
-        <td>
-        </td>
+        <td>#|row.occupation|#</td>
+        <td><input ng-model="row.dispatch" type="checkbox"></td>
       </tr>
       </tbody>
     </table>
