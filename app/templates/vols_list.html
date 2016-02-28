@@ -8,95 +8,98 @@
   <!-- Form Name -->
   <legend>Project Info</legend>
 
-  <!-- Text input-->
-  <div class="form-group">
-    <label ng-model="project.name" class="col-md-4 control-label" for="" help="" organize="" supplies""="">Project Name</label>  
-    <div class="col-md-4">
-    <input id="" help="" organize="" supplies""="" name="" type="text" placeholder="" class="form-control input-md">
-      
-    </div>
-  </div>
+  <div class="col-md-8">
+    <!-- Text input-->
+    <div class="form-group">
 
-  <!-- Text input-->
-  <div class="form-group">
-    <label ng-model="project.organization" class="col-md-4 control-label" for="organization">Organization</label>  
-    <div class="col-md-4">
-    <input id="organization" name="organization" type="text" placeholder="IRC, MSF, etc" class="form-control input-md">
-      
+      <label ng-model="project.name" class="col-md-4 control-label" for="" help="" organize="" supplies""="">Project Name</label>  
+      <div class="col-md-8">
+      <input id="" help="" organize="" supplies""="" name="" type="text" placeholder="" class="form-control input-md">
+        
+      </div>
     </div>
-  </div>
 
-  <!-- Text input-->
-  <div class="form-group">
-    <label ng-model="project.description" class="col-md-4 control-label" for="Description">Description</label>  
-    <div class="col-md-4">
-    <input id="Description" name="Description" type="text" placeholder="Help organize supplies" class="form-control input-md">
-      
+    <!-- Text input-->
+    <div class="form-group">
+      <label ng-model="project.organization" class="col-md-4 control-label" for="organization">Organization</label>  
+      <div class="col-md-8">
+      <input id="organization" name="organization" type="text" placeholder="IRC, MSF, etc" class="form-control input-md">
+        
+      </div>
     </div>
-  </div>
 
-  <!-- Text input-->
-  <div class="form-group">
-    <label ng-model="project.tools" class="col-md-4 control-label" for="tools">Tools</label>  
-    <div class="col-md-4">
-    <input id="tools" name="tools" type="text" placeholder="flashlight" class="form-control input-md">
-      
+    <!-- Text input-->
+    <div class="form-group">
+      <label ng-model="project.description" class="col-md-4 control-label" for="Description">Description</label>  
+      <div class="col-md-8">
+      <textarea id="Description" name="Description" type="textarea" placeholder="Please be as detailed as possible" class="form-control input-md"></textarea>        
+      </div>
     </div>
-  </div>
 
-  <!-- Multiple Checkboxes -->
-  <div class="form-group">
-    <label ng-model="project.days" class="col-md-4 control-label" for="days">Days needed</label>
-    <div class="col-md-4">
-    <div class="checkbox">
-      <label for="days-0">
-        <input type="checkbox" name="days" id="days-0" value="mon">
-        Monday
-      </label>
-    </div>
-    <div class="checkbox">
-      <label for="days-1">
-        <input type="checkbox" name="days" id="days-1" value="tue">
-        Tuesday
-      </label>
-    </div>
-    <div class="checkbox">
-      <label for="days-2">
-        <input type="checkbox" name="days" id="days-2" value="wed">
-        Wendesday
-      </label>
-    </div>
-    <div class="checkbox">
-      <label for="days-3">
-        <input type="checkbox" name="days" id="days-3" value="thu">
-        Thursday
-      </label>
-    </div>
-    <div class="checkbox">
-      <label for="days-4">
-        <input type="checkbox" name="days" id="days-4" value="fri">
-        Friday
-      </label>
-    </div>
-    <div class="checkbox">
-      <label for="days-5">
-        <input type="checkbox" name="days" id="days-5" value="sat">
-        Saturday
-      </label>
-    </div>
-    <div class="checkbox">
-      <label for="days-6">
-        <input type="checkbox" name="days" id="days-6" value="sun">
-        Sunday
-      </label>
-    </div>
+    <!-- Text input-->
+    <div class="form-group">
+      <label ng-model="project.tools" class="col-md-4 control-label" for="tools">Tools</label>  
+      <div class="col-md-8">
+      <input id="tools" name="tools" type="text" placeholder="flashlight" class="form-control input-md">
+        
+      </div>
     </div>
   </div>
+  <div class="col-md-4">
+    <!-- Multiple Checkboxes -->
+    <div class="form-group">
+      <label ng-model="project.days" id="days-label" class="col-md-12 control-label" for="days">Days needed</label>
+      <div class="col-md-4">
+      <div class="checkbox">
+        <label for="days-0">
+          <input type="checkbox" name="days" id="days-0" value="mon">
+          Monday
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="days-1">
+          <input type="checkbox" name="days" id="days-1" value="tue">
+          Tuesday
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="days-2">
+          <input type="checkbox" name="days" id="days-2" value="wed">
+          Wendesday
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="days-3">
+          <input type="checkbox" name="days" id="days-3" value="thu">
+          Thursday
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="days-4">
+          <input type="checkbox" name="days" id="days-4" value="fri">
+          Friday
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="days-5">
+          <input type="checkbox" name="days" id="days-5" value="sat">
+          Saturday
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="days-6">
+          <input type="checkbox" name="days" id="days-6" value="sun">
+          Sunday
+        </label>
+      </div>
+      </div>
+    </div>
+  <div class="col-md-6">
 
   </fieldset>
   </form>
 
-    <h1>Available Volunteers</h1>
+    <legend>Available Volunteers</legend>
   <div class="page-header">
    <table class="table">
         <thead>
