@@ -92,13 +92,7 @@ def project_data(project_id):
     p = models.Project.query.get(project_id)
     return str(p)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d0d075c3f573264b927e1c2b53992288ff261e4f
 @app.route('/volunteer', methods=['GET'])
-
-
 def get_vols_list():
     vols = models.Vol.query.all()
     jvols = jsonify({'volunteers':[vol.as_dict() for vol in vols]})
