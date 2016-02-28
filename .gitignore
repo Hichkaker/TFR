@@ -1,5 +1,4 @@
 venv
-db_repository
 app.db
 .idea*
 __pychache__
