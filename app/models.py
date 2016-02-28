@@ -4,8 +4,8 @@ class Vol(db.Model):
     __tablename__ = 'Vol'
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(120), unique=True)
-    last_name = db.Column(db.String(120), unique=True)
+    first_name = db.Column(db.String(120))
+    last_name = db.Column(db.String(120))
     email = db.Column(db.String(120), unique=True)
     phone =  db.Column(db.String(120), unique=True)
     occupation = db.Column(db.String(120))
