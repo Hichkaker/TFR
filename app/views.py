@@ -1,9 +1,11 @@
 from flask import render_template, request, jsonify, session, redirect
 from app import app, db, models
+import config
 import datetime
 import json
 import pdb
 import twilio.twiml
+from twilio.rest import TwilioRestClient
 
 
 @app.errorhandler(404)
@@ -40,32 +42,41 @@ def new_vol():
         accepts_texts=(True if data['accepts_texts'].lower() == 'yes' else False),
         postal_code=data['postal_code'],
         created_on=datetime.datetime.utcnow(),
-        mon=(True if 'Monday' in data else False),
-        tue=(True if 'Tuesday' in data else False),
-        wed=(True if 'Wednesday' in data else False),
-        thu=(True if 'Thursday' in data else False),
-        fri=(True if 'Friday' in data else False),
-        sat=(True if 'Saturday' in data else False),
-        sun=(True if 'Sunday' in data else False))
+        mon=(True if 'monday' in data else False),
+        tue=(True if 'tuesday' in data else False),
+        wed=(True if 'wednesday' in data else False),
+        thu=(True if 'thursday' in data else False),
+        fri=(True if 'friday' in data else False),
+        sat=(True if 'saturday' in data else False),
+        sun=(True if 'sunday' in data else False))
 
     db.session.add(vol)
     db.session.commit()
     return redirect('/volunteers')
 
-@app.route('/project/new', methods=['GET','POST'])
+@app.route('/project/new', methods=['GET'])
 def new_project():
-    np = models.Project(created_on=datetime.datetime.utcnow())
-    db.session.add(np)
-    db.session.commit()
-    return redirect('/project/%s' % np.id)
+    return render_template('new_project.html')
+
+@app.route('/project/new', methods=['POST'])
+def save_project():
+    vols = request.get_json()['volunteers']
+    project = request.get_json()['project']
+
+
+
+
+
 
 @app.route('/project/<int:project_id>', methods=['GET'])
 def project(project_id):
     p = models.Project.query.get(project_id)
-    if not p.updated_on:
-        return render_template('new_project_form.html')
-    else:
-        return render_template('project_info.html')
+    return render_template('project_info.html')
+
+@app.route('/project/<int:project_id>/data', methods=['GET'])
+def project_data(project_id):
+    p = models.Project.query.get(project_id)
+    return str(p)
 
 
 # @app.route('/project/<int:project_id>/volunteers', methods=['GET'])
@@ -80,36 +91,34 @@ def list_vols():
     return render_template('vols_list.html')
 
 
-@app.route('/request_vols', methods=['POST'])
-#For each vol id,
-def request_vols():
+@app.route('/project_assignment_confirmation', methods=['POST'])
+def confirm():
     vols = request.get_json()
+    from_number = request.values.get('From')
 
-#     for vol_id in vols:
-#         send
-#
-#
-#
-#
-# def sms_request():
-#
-#     counter = session.get('counter', 0)
-#
-#     # increment the counter
-#     counter += 1
-#
-#     # Save the new counter value in the session
-#     session['counter'] = counter
-#
-#     from_number = request.values.get('From')
-#     if from_number in callers:
-#         name = callers[from_number]
-#     else:
-#         name = "Monkey"
-#
-#     message = "".join([name, " has messaged ", request.values.get('To'), " ",
-#         str(counter), " times."])
-#     resp = twilio.twiml.Response()
-#     resp.sms(message)
-#
-#     return str(resp)
+    vol = models.Vol.get(phone=from_number).first()
+    pa = models.ProjectAssignment.get(vol_id=vol.id).first()
+    if pa:
+        resp = twilio.twiml.Response()
+        resp.sms('Thank you!')
+
+# Find these values at https://twilio.com/user/account
+
+
+def request_vol(vol, project):
+    client = TwilioRestClient(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN)
+    body = "Hi {},\n {} would need your help from {} to {}.\n{}\n"\
+        .format(vol.first_name,
+                project.organization,
+                project.from_time,
+                project.to_time,
+                project.description)
+    body += "If you can help, please reply '1', if not reply '0'"
+
+    #Send SMS
+    message = client.messages.create(to=vol.phone, from_=config.TWILIO_SENDER_NUMBER,
+                                     body=body)
+    #Store state
+    pa = models.ProjectAssignment.get(vol_id=vol.id, project_id=project.id).first()
+    pa.request_sent = True
+    db.session.commit()
