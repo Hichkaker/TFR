@@ -25,7 +25,7 @@ def new_vol():
     # vol = models.Vol()
     # db.session.add(vol)
     # db.session.commit()
-    return 'Success!'
+    return str(data)
 
 @app.route('/list_vols', methods=['GET'])
 def list_vols():
