@@ -25,7 +25,7 @@ def internal_error(error):
 @app.route('/register', methods=['GET'])
 @app.route('/login', methods=['GET'])
 def index():
-    return render_template('vol_sign_up.html')
+    return render_template('splash.html')
 
 #Volunteer signup form
 @app.route('/volunteer/new', methods=['POST'])
@@ -110,6 +110,9 @@ def get_vols_list():
 def list_vols():
     return render_template('vols_list.html')
 
+@app.route('/volunteers/new', methods=['GET'])
+def vols_new():
+    return render_template('vol_sign_up.html')
 
 @app.route('/project_assignment_confirmation', methods=['POST'])
 def confirm():
