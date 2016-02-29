@@ -145,7 +145,7 @@ def request_vol(vol, project):
                 project.organization,
                 project.day,
                 project.description)
-    body += "Please reply 'Yes' to confirm that you're coming or 'No' to reject."
+    body += "Please reply 'Yes' to confirm participation or 'No' to reject."
     #Send SMS
     client.messages.create(to=vol.phone,
                                      from_=config.TWILIO_SENDER_NUMBER,
