@@ -41,6 +41,11 @@ a {
 
 textarea.form-control {
   height: 200px;
+  resize: none;
+}
+
+#dispatch-button{
+  text-align: center;
 }
 
 /* Main elements end */
