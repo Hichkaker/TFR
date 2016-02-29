@@ -111,10 +111,9 @@ def list_vols():
     return render_template('vols_list.html')
 
 @app.route('/volunteers/new', methods=['GET'])
-def new_volunteer():
-    return render_template('new_volunteer.html')
-
-
+def vols_new():
+    return render_template('vol_sign_up.html')
+    
 @app.route('/project_assignment_confirmation', methods=['POST'])
 def confirm():
     app.logger.info(request.values)

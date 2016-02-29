@@ -69,46 +69,33 @@
                     </ul>
                 </div>
             </div>
-        </div>
-    </footer>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
 
-    <!-- jQuery -->
-    <script src="/static/bootstrap/js/jquery.js"></script>
+      {% block content %}{% endblock %}
+    </main>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  </div>
 
-    <!-- Custom Theme JavaScript -->
-    <script>
-    // Closes the sidebar menu
-    $("#menu-close").click(function(e) {
-        e.preventDefault();
-        $("#sidebar-wrapper").toggleClass("active");
-    });
+  <div id="footer">
+    <div class="container">
+      <p>Tinder for Refugees &copy; No Rights Reserved.</p>
+      {% block footer %}{% endblock %}
+    </div>
+  </div>
 
-    // Opens the sidebar menu
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#sidebar-wrapper").toggleClass("active");
-    });
-
-    // Scrolls to the selected menu item on the page
-    $(function() {
-        $('a[href*=#]:not([href=#])').click(function() {
-            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
-
-                var target = $(this.hash);
-                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-                if (target.length) {
-                    $('html,body').animate({
-                        scrollTop: target.offset().top
-                    }, 1000);
-                    return false;
-                }
-            }
-        });
-    });
-    </script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script defer src="/static/js/libs/bootstrap-3.0.0.min.js"></script>
+  <script defer src="/static/js/plugins.js"></script>
+  <script defer src="/static/js/script.js"></script>
+  <!-- Google Analytics - Change UA-XXXXX-X to be your site's ID -->
+  <script>
+  window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
+  Modernizr.load({
+    load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+  });
+  </script>
 </body>
 
 </html>
