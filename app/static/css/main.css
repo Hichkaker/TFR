@@ -41,6 +41,7 @@ a {
 
 textarea.form-control {
   height: 200px;
+  resize: none;
 }
 
 /* Main elements end */
